@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using AutoFixture;
+using Checkout.PaymentGatewayApi.Common;
 using Checkout.PaymentGatewayApi.IntegrationTests.Testing;
 using Checkout.PaymentGatewayApi.IntegrationTests.Testing.Extensions;
 using Checkout.PaymentGatewayApi.Models;

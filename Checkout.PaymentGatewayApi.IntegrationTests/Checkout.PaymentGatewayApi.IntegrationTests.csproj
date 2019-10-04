@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Checkout.PaymentGatewayApi.Common\Checkout.PaymentGatewayApi.Common.csproj" />
     <ProjectReference Include="..\Checkout.PaymentGatewayApi\Checkout.PaymentGatewayApi.csproj" />
   </ItemGroup>
 

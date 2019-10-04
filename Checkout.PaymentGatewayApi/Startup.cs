@@ -1,3 +1,4 @@
+using Checkout.PaymentGatewayApi.Configuration;
 using Checkout.PaymentGatewayApi.Database;
 using Checkout.PaymentGatewayApi.Logging;
 using Checkout.PaymentGatewayApi.Services;
@@ -26,11 +27,12 @@ namespace Checkout.PaymentGatewayApi
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IAcquiringBankClient, AcquiringBankClient>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
-
+            
             services.AddDbContext<PaymentDbContext>(opt =>
                 opt.UseInMemoryDatabase("PaymentGateway"));
 
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddSingleton(Configuration.GetSection("AcquiringBank").Get<AcquiringBankConfig>());
 
             services.AddControllers();
 

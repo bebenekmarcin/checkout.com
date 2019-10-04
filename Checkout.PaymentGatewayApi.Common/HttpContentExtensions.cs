@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Checkout.PaymentGatewayApi.IntegrationTests.Testing.Extensions
+namespace Checkout.PaymentGatewayApi.Common
 {
     public static class HttpContentExtensions
     {

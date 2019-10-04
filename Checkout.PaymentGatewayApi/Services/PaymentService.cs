@@ -1,10 +1,8 @@
  using System;
  using System.Threading.Tasks;
- using Checkout.PaymentGatewayApi.Controllers;
  using Checkout.PaymentGatewayApi.Database;
  using Checkout.PaymentGatewayApi.Logging;
  using Checkout.PaymentGatewayApi.Models;
- using Microsoft.Extensions.Logging;
 
 
  namespace Checkout.PaymentGatewayApi.Services
