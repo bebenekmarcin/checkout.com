@@ -1,62 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Checkout.PaymentGatewayApi.Domain.Models;
-using Checkout.PaymentGatewayApi.IntegrationTests.Extensions;
+﻿using System.Threading.Tasks;
+using AutoFixture;
+using Checkout.PaymentGatewayApi.IntegrationTests.Testing;
+using Checkout.PaymentGatewayApi.IntegrationTests.Testing.Extensions;
 using Checkout.PaymentGatewayApi.Models;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Checkout.PaymentGatewayApi.IntegrationTests.Controllers
 {
-    public class PaymentApiShould : IClassFixture<WebApplicationFactory<Startup>>
+    public class PaymentApiShould : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly Fixture _fixture;
 
-        public PaymentApiShould(WebApplicationFactory<Startup> factory)
+        public PaymentApiShould(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
+            _fixture = new Fixture();
         }
 
         [Fact]
         public async Task GET_ReturnSuccessAndCorrectContentType()
         {
             var client = _factory.CreateClient();
+            var existingPaymentId = _factory.Database.Payment.Id;
 
-            var response = await client.GetAsync("api/payment");
+            var response = await client.GetAsync($"api/payment/{existingPaymentId}");
 
-            response.EnsureSuccessStatusCode();
-            response.Content.Headers.ContentType.ToString().Should().Be("application/json; charset=utf-8");
+            response.EnsureSuccessStatusCodeAndExpectedContent();
         }
-
+        
         [Fact]
         public async Task GET_ReturnPayments()
         {
             var client = _factory.CreateClient();
+            var existingPaymentId = _factory.Database.Payment.Id;
 
-            var response = await client.GetAsync("api/payment");
+            var response = await client.GetAsync($"api/payment/{existingPaymentId}");
 
-            var payments = await response.Content.ReadAsJsonAsync<IList<string>>();
-            payments.Should().NotBeEmpty();
+            response.EnsureSuccessStatusCodeAndExpectedContent();
+            var payment = await response.Content.ReadAsJsonAsync<Payment>();
+            payment.Should().BeEquivalentTo(_factory.Database.Payment);
         }
 
         [Fact]
-        public async Task POST_AcceptPaymentRequest()
+        public async Task POST_ReturnSuccessAndCorrectContentType()
         {
             var client = _factory.CreateClient();
-            var paymentRequest = new PaymentRequest
-            {
-                CardNumber = "1234-1234-1234-1234",
-                ExpiryMonth = 9,
-                ExpiryYear = 2019,
-                Currency = Currency.GPB,
-                Amount = 1000,
-                Cvv = 123
-            };
+            var payment= _fixture.Create<Payment>();
 
-            var response = await client.PostAsJsonAsync("api/payment", paymentRequest);
+            var response = await client.PostAsJsonAsync("api/payment", payment);
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCodeAndExpectedContent();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Checkout.PaymentGatewayApi.Domain.Models
+namespace Checkout.PaymentGatewayApi.Models
 {
     public class Payment
     {
-        public Guid PaymentId { get; set; }
+        public Guid Id { get; set; }
         public bool IsSuccessful { get; set; }
         public string CardNumber { get; set; }
         public int ExpiryMonth { get; set; }

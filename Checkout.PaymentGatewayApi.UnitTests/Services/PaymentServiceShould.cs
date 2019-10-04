@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
 using AutoFixture;
-using Checkout.PaymentGatewayApi.Domain.Models;
-using Checkout.PaymentGatewayApi.Domain.Services;
+using Checkout.PaymentGatewayApi.Database;
+using Checkout.PaymentGatewayApi.Models;
+using Checkout.PaymentGatewayApi.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace Checkout.PaymentGatewayApi.Domain.UnitTests.Services
+namespace Checkout.PaymentGatewayApi.UnitTests.Services
 {
     public class PaymentServiceShould
     {
@@ -50,7 +51,7 @@ namespace Checkout.PaymentGatewayApi.Domain.UnitTests.Services
 
             await _paymentService.SendPaymentAsync(payment);
 
-            _paymentRepositoryMock.Verify(r => r.AddPaymentAsync(payment), Times.Once);
+            _paymentRepositoryMock.Verify(r => r.SaveAsync(payment), Times.Once);
         }
     }
 }

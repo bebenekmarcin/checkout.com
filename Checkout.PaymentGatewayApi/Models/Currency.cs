@@ -1,5 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace Checkout.PaymentGatewayApi.Domain.Models
+namespace Checkout.PaymentGatewayApi.Models
 {
     public enum Currency
     {

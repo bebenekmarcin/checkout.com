@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Checkout.PaymentGatewayApi.Domain.Models;
-using Checkout.PaymentGatewayApi.Domain.Services;
+using Checkout.PaymentGatewayApi.Database;
 using Checkout.PaymentGatewayApi.Models;
+using Checkout.PaymentGatewayApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,33 +15,47 @@ namespace Checkout.PaymentGatewayApi.Controllers
     {
         private readonly ILogger<PaymentController> _logger;
         private readonly IPaymentService _paymentService;
+        private readonly IPaymentRepository _paymentRepository;
 
-        public PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService)
+        public PaymentController(
+            ILogger<PaymentController> logger, 
+            IPaymentService paymentService, 
+            IPaymentRepository paymentRepository)
         {
             _logger = logger;
             _paymentService = paymentService;
+            _paymentRepository = paymentRepository;
         }
 
-        // GET: api/Payment
         [HttpGet("{guid}")]
-        public IEnumerable<string> GetPayment(Guid guid)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Payment>> GetPayment(Guid guid)
         {
-            return new string[] { "value1", "value2" };
+            var payment = await _paymentRepository.GetAsync(guid);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            return payment;
         }
 
-        // POST: api/Payment
         [HttpPost]
-        public async Task<ActionResult<PaymentResponse>> Post([FromBody] Payment payment)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Payment>> SentPayment([FromBody] Payment payment)
         {
             var created = await _paymentService.SendPaymentAsync(payment);
 
             var response = new PaymentResponse
             {
-                PaymentId = created.PaymentId,
+                PaymentId = created.Id,
                 IsSuccessful = created.IsSuccessful
             };
 
-            return CreatedAtAction(nameof(GetPayment), new { id = response.PaymentId }, payment);
+            return CreatedAtAction(nameof(GetPayment), new { guid = response.PaymentId }, payment);
         }
     }
 }

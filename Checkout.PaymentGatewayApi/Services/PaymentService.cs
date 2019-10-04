@@ -1,7 +1,9 @@
-using System.Threading.Tasks;
-using Checkout.PaymentGatewayApi.Domain.Models;
+ using System.Threading.Tasks;
+ using Checkout.PaymentGatewayApi.Database;
+ using Checkout.PaymentGatewayApi.Models;
 
-namespace Checkout.PaymentGatewayApi.Domain.Services
+
+namespace Checkout.PaymentGatewayApi.Services
 {
     public class PaymentService : IPaymentService
     {
@@ -17,7 +19,7 @@ namespace Checkout.PaymentGatewayApi.Domain.Services
         public async Task<Payment> SendPaymentAsync(Payment payment)
         {
             await _acquiringBankClient.SendPaymentAsync(payment);
-            await _paymentRepository.AddPaymentAsync(payment);
+            await _paymentRepository.SaveAsync(payment);
 
             return payment;
         }
