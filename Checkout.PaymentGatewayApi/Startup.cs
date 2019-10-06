@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Checkout.PaymentGatewayApi.Configuration;
 using Checkout.PaymentGatewayApi.Database;
 using Checkout.PaymentGatewayApi.Logging;
@@ -9,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Checkout.PaymentGatewayApi
 {
@@ -27,18 +31,21 @@ namespace Checkout.PaymentGatewayApi
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddHttpClient<IAcquiringBankClient, AcquiringBankClient>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
-            
+
             services.AddDbContext<PaymentDbContext>(opt =>
                 opt.UseInMemoryDatabase("PaymentGateway"));
 
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddSingleton(Configuration.GetSection("AcquiringBank").Get<AcquiringBankConfig>());
 
-            services.AddControllers();
-
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+            
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Payment Gateway API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payment Gateway API", Version = "v1" });
             });
         }
 
@@ -49,6 +56,7 @@ namespace Checkout.PaymentGatewayApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Checkout.PaymentGatewayApi.Models
 {
@@ -21,6 +23,7 @@ namespace Checkout.PaymentGatewayApi.Models
         public decimal Amount { get; set; }
 
         [Required]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Currency Currency { get; set; }
 
         [Required, Range(100, 999, ErrorMessage = "The Cvv should have 3 digits length")]
