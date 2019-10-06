@@ -12,7 +12,6 @@ using Xunit;
 
 namespace Checkout.PaymentGatewayApi.UnitTests.Services
 {
-
     public class AcquiringBankClientShould
     {
         private readonly HttpMessageHandlerProxy _httpMessageHandlerProxy;
@@ -33,15 +32,27 @@ namespace Checkout.PaymentGatewayApi.UnitTests.Services
         }
 
         [Fact]
-        public async Task PostPayment()
+        public async Task SentPaymentToBank()
         {
             var payment = _fixture.Create<Payment>();
-            _httpMessageHandlerProxy.SetResponse(HttpStatusCode.OK, payment);
+            var bankResponse = _fixture.Create<BankResponse>();
+            _httpMessageHandlerProxy.SetResponse(HttpStatusCode.OK, bankResponse);
 
             await _acquiringBankClient.SendPaymentAsync(payment);
 
             _httpMessageHandlerProxy.NumberOfCalls.Should().Be(1);
         }
 
+        [Fact]
+        public async Task ReturnBankResponse()
+        {
+            var payment = _fixture.Create<Payment>();
+            var bankResponse = _fixture.Create<BankResponse>();
+            _httpMessageHandlerProxy.SetResponse(HttpStatusCode.OK, bankResponse);
+
+            var response = await _acquiringBankClient.SendPaymentAsync(payment);
+
+            response.Should().BeEquivalentTo(bankResponse);
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Checkout.PaymentGatewayApi.Controllers
         {
             var created = await _paymentService.SendPaymentAsync(payment);
 
-            var response = new PaymentResponse
+            var response = new BankResponse
             {
                 PaymentId = created.Id,
                 IsSuccessful = created.IsSuccessful

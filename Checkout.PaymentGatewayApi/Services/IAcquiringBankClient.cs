@@ -6,6 +6,6 @@ namespace Checkout.PaymentGatewayApi.Services
 
     public interface IAcquiringBankClient
     {
-        Task<Payment> SendPaymentAsync(Payment payment);
+        Task<BankResponse> SendPaymentAsync(Payment payment);
     }
 }

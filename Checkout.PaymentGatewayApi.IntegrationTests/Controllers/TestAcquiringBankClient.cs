@@ -6,9 +6,9 @@ namespace Checkout.PaymentGatewayApi.IntegrationTests.Controllers
 {
     public class TestAcquiringBankClient : IAcquiringBankClient
     {
-        public Task<Payment> SendPaymentAsync(Payment payment)
+        public Task<BankResponse> SendPaymentAsync(Payment payment)
         {
-            return Task.FromResult(payment);
+            return Task.FromResult(new BankResponse());
         }
     }
 }

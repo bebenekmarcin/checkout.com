@@ -17,13 +17,13 @@ namespace Checkout.PaymentGatewayApi.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Payment> SendPaymentAsync(Payment payment)
+        public async Task<BankResponse> SendPaymentAsync(Payment payment)
         {
             var response = await _httpClient.PostAsJsonAsync("payment", payment);
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsJsonAsync<Payment>();
+                return await response.Content.ReadAsJsonAsync<BankResponse>();
             }
 
             var error = await response.Content.ReadAsStringAsync();
