@@ -11,7 +11,7 @@ namespace Checkout.PaymentGatewayApi.Models
         [Required, CreditCard]
         public string CardNumber { get; set; }
 
-        [Required, Range(2019, int.MaxValue, ErrorMessage = "The ExpiryMonth should be between 1 and 12.")]
+        [Required, Range(1, 12, ErrorMessage = "The ExpiryMonth should be between 1 and 12.")]
         public int ExpiryMonth { get; set; }
 
         [Required, Range(2019, int.MaxValue, ErrorMessage = "The ExpiryYear should be greater than 2019.")]

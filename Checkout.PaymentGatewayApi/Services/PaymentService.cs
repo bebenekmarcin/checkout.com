@@ -27,7 +27,11 @@ namespace Checkout.PaymentGatewayApi.Services
         {
             try
             {
-                await _acquiringBankClient.SendPaymentAsync(payment);
+                var bankResponse = await _acquiringBankClient.SendPaymentAsync(payment);
+                
+                payment.Id = bankResponse.PaymentId;
+                payment.IsSuccessful = bankResponse.IsSuccessful;
+
                 await _paymentRepository.SaveAsync(payment);
 
                 return payment;

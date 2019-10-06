@@ -19,7 +19,7 @@ namespace Checkout.PaymentGatewayApi.Services
 
         public async Task<BankResponse> SendPaymentAsync(Payment payment)
         {
-            var response = await _httpClient.PostAsJsonAsync("payment", payment);
+            var response = await _httpClient.PostAsJsonAsync("/api/bank", payment);
 
             if (response.IsSuccessStatusCode)
             {
