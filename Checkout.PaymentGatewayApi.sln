@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGatewayApi.IntegrationTests", "Checkout.PaymentGatewayApi.IntegrationTests\Checkout.PaymentGatewayApi.IntegrationTests.csproj", "{7C7C861B-4F4F-4256-A1F0-97CD1B5D9972}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4070698B-C5F7-46D6-93B9-75EE27A68294}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGatewayApi.UnitTests", "Checkout.PaymentGatewayApi.UnitTests\Checkout.PaymentGatewayApi.UnitTests.csproj", "{49CA333E-A4BE-46C2-8EF5-F41AFBEAF128}"
 EndProject
