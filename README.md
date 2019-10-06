@@ -3,6 +3,8 @@ The Payment Gateway API allow a merchant to offer a way for their shoppers to pa
 * process a payment through the payment gateway and receive either a successful or unsuccessful response
 * retrieve the details of a previously made payment
 
+Solution also contains simulator (project Checkout.AcquiringBankSimulator) which mock the responses from the bank to test the API. 
+
 The full documentaion about request and response could be found in swagger https://localhost:44342/index.html
 
 # Developer consideraton
