@@ -25,7 +25,7 @@ namespace Checkout.PaymentGatewayApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IPaymentService, PaymentService>();
-            services.AddTransient<IAcquiringBankClient, AcquiringBankClient>();
+            services.AddHttpClient<IAcquiringBankClient, AcquiringBankClient>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             
             services.AddDbContext<PaymentDbContext>(opt =>

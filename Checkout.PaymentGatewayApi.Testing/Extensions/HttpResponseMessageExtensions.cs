@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using FluentAssertions;
 
-namespace Checkout.PaymentGatewayApi.IntegrationTests.Testing.Extensions
+namespace Checkout.PaymentGatewayApi.Testing.Extensions
 {
     public static class HttpResponseMessageExtensions
     {

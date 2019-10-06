@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using Checkout.PaymentGatewayApi.Configuration;
 using Checkout.PaymentGatewayApi.Models;
 using Checkout.PaymentGatewayApi.Services;
-using Checkout.PaymentGatewayApi.UnitTests.Testing;
+using Checkout.PaymentGatewayApi.Testing;
 using FluentAssertions;
 using Xunit;
 
@@ -19,8 +15,8 @@ namespace Checkout.PaymentGatewayApi.UnitTests.Services
 
     public class AcquiringBankClientShould
     {
-        private HttpMessageHandlerProxy _httpMessageHandlerProxy;
-        private AcquiringBankClient _acquiringBankClient;
+        private readonly HttpMessageHandlerProxy _httpMessageHandlerProxy;
+        private readonly AcquiringBankClient _acquiringBankClient;
         private readonly Fixture _fixture;
 
         public AcquiringBankClientShould()

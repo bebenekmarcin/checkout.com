@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using Checkout.PaymentGatewayApi.Database;
 using Checkout.PaymentGatewayApi.Models;
 
-namespace Checkout.PaymentGatewayApi.IntegrationTests.Testing
+namespace Checkout.PaymentGatewayApi.Testing
 {
     public class Database
     {
