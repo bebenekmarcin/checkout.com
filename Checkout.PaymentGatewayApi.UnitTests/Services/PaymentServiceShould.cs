@@ -6,7 +6,6 @@ using Checkout.PaymentGatewayApi.Logging;
 using Checkout.PaymentGatewayApi.Models;
 using Checkout.PaymentGatewayApi.Services;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -75,7 +74,31 @@ namespace Checkout.PaymentGatewayApi.UnitTests.Services
             }
 
             _loggerMock.Verify(x => x.LogError(It.IsAny<Exception>()), Times.Once);
+        }
 
+
+        [Fact]
+        public async Task GetPaymentFromRepository()
+        {
+            var payment = _fixture.Build<Payment>()
+                .With(p => p.CardNumber, "4111111111111111").Create();
+            _paymentRepositoryMock.Setup(r => r.GetAsync(payment.Id)).Returns(Task.FromResult(payment));
+
+            await _paymentService.GetPaymentAsync(payment.Id);
+
+            _paymentRepositoryMock.Verify(r => r.GetAsync(payment.Id), Times.Once);
+        }
+
+        [Fact]
+        public async Task MaskCardNumber()
+        {
+            var payment = _fixture.Build<Payment>()
+                .With(p => p.CardNumber, "4111111111111111").Create();
+            _paymentRepositoryMock.Setup(r => r.GetAsync(payment.Id)).Returns(Task.FromResult(payment));
+
+            var paymentFromDb = await _paymentService.GetPaymentAsync(payment.Id);
+
+            paymentFromDb.CardNumber.Should().Be("************1111");
         }
     }
 }

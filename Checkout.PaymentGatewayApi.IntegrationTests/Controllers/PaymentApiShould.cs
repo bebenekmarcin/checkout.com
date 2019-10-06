@@ -55,7 +55,7 @@ namespace Checkout.PaymentGatewayApi.IntegrationTests.Controllers
 
             response.EnsureSuccessStatusCodeAndExpectedContent();
             var payment = await response.Content.ReadAsJsonAsync<Payment>();
-            payment.Should().BeEquivalentTo(_factory.Database.Payment);
+            payment.Should().BeEquivalentTo(_factory.Database.Payment, options => options.Excluding(x => x.CardNumber));
         }
 
         [Fact]

@@ -15,16 +15,13 @@ namespace Checkout.PaymentGatewayApi.Controllers
     {
         private readonly ILogger<PaymentController> _logger;
         private readonly IPaymentService _paymentService;
-        private readonly IPaymentRepository _paymentRepository;
 
         public PaymentController(
             ILogger<PaymentController> logger, 
-            IPaymentService paymentService, 
-            IPaymentRepository paymentRepository)
+            IPaymentService paymentService)
         {
             _logger = logger;
             _paymentService = paymentService;
-            _paymentRepository = paymentRepository;
         }
 
         [HttpGet("{guid}")]
@@ -32,7 +29,7 @@ namespace Checkout.PaymentGatewayApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Payment>> GetPayment(Guid guid)
         {
-            var payment = await _paymentRepository.GetAsync(guid);
+            var payment = await _paymentService.GetPaymentAsync(guid);
 
             if (payment == null)
             {

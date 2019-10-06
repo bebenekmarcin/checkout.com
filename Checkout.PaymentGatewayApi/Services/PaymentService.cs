@@ -1,11 +1,11 @@
- using System;
- using System.Threading.Tasks;
- using Checkout.PaymentGatewayApi.Database;
- using Checkout.PaymentGatewayApi.Logging;
- using Checkout.PaymentGatewayApi.Models;
+using System;
+using System.Threading.Tasks;
+using Checkout.PaymentGatewayApi.Database;
+using Checkout.PaymentGatewayApi.Logging;
+using Checkout.PaymentGatewayApi.Models;
 
 
- namespace Checkout.PaymentGatewayApi.Services
+namespace Checkout.PaymentGatewayApi.Services
 {
     public class PaymentService : IPaymentService
     {
@@ -15,7 +15,7 @@
 
         public PaymentService(
             ILoggerAdapter<PaymentService> logger,
-            IAcquiringBankClient acquiringBankClient, 
+            IAcquiringBankClient acquiringBankClient,
             IPaymentRepository paymentRepository)
         {
             _logger = logger;
@@ -37,6 +37,15 @@
                 _logger.LogError(e);
                 throw;
             }
+        }
+
+        public async Task<Payment> GetPaymentAsync(Guid guid)
+        {
+            var payment = await _paymentRepository.GetAsync(guid);
+
+            payment.CardNumber = payment.CardNumber.Substring(payment.CardNumber.Length - 4).PadLeft(payment.CardNumber.Length, '*');
+
+            return payment;
         }
     }
 }
